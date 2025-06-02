@@ -1,0 +1,510 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kuis Pancasila</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<style>
+/* Kuis Styles */
+#quiz-container {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.question-box {
+    margin-bottom: 2rem;
+}
+
+.question-box h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+/* Warna berbeda untuk setiap opsi jawaban sebelum dipilih */
+.btn-grid button.button.option-a {
+    background: #e3f2fd;
+    border-left: 4px solid #2196F3;
+}
+
+.btn-grid button.button.option-b {
+    background: #e8f5e9;
+    border-left: 4px solid #4CAF50;
+}
+
+.btn-grid button.button.option-c {
+    background: #fff3e0;
+    border-left: 4px solid #FF9800;
+}
+
+.btn-grid button.button.option-d {
+    background: #fce4ec;
+    border-left: 4px solid #E91E63;
+}
+
+.btn-grid button.button {
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    color: #333;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.btn-grid button.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Warna setelah dijawab */
+button.correct {
+    background: #4CAF50 !important;
+    color: white !important;
+    border-color: #4CAF50 !important;
+}
+
+button.wrong {
+    background: #f44336 !important;
+    color: white !important;
+    border-color: #f44336 !important;
+}
+
+
+
+/* Icon untuk jawaban benar */
+button.correct::after {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+}
+
+/* Icon untuk jawaban salah */
+button.wrong::after {
+    content: "\f00d";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+}
+
+#controls {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.results-box {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.results-box h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+#score-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+#feedback {
+    margin: 1.5rem 0;
+    font-style: italic;
+}
+</style>
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+					<div class="container">
+						<h1 id="logo"><a href="index.html">KUIS PANCASILA</a></h1>
+						<p>Uji pemahamanmu tentang dasar negara Indonesia</p>
+                        <nav id="nav">
+								<ul>
+									<li><a class="icon solid fa-home" href="index.html"><span>Beranda</span></a></li>
+									<li>
+										 <a href="#" class="icon solid fa-book"><span>Materi</span></a>
+										<ul>
+											<li><a href="sejarahpancasila.html">Sejarah Pancasila</a></li>
+											<li><a href="nilainilaipancasila.html">Nilai-nilai Pancasila</a></li>
+											<li><a href="penerapanpancasila.html">Penerapan Pancasila</a></li>
+											<li><a href="Kuispancasila.html">Kuis Pancasila</a></li>
+										</ul>
+									</li>
+									<li><a class="icon solid fa-cog" href="artikel.html"><span>Artikel</span></a></li>
+									<li><a class="icon solid fa-retweet" href="galeri.html"><span>Galeri</span></a></li>
+									<li><a class="icon solid fa-sitemap" href="tentangkami.html"><span>Tentang Kami</span></a></li>
+								</ul>
+							</nav>
+					</div>
+				</section>
+
+				
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+
+								<!-- Kuis Section -->
+								<section>
+									<h2>KUIS PANCASILA</h2>
+									<div class="box-content">
+										<div id="quiz-container">
+											<div id="question-container" class="question-box" style="display:none;">
+												<h3 id="question">Pertanyaan akan muncul di sini</h3>
+												<div id="answer-buttons" class="btn-grid"></div>
+											</div>
+											<div id="controls">
+												<button id="start-btn" class="button">Mulai Kuis</button>
+												<button id="next-btn" class="button" style="display:none;">Pertanyaan Berikutnya</button>
+											</div>
+											<div id="results" class="results-box" style="display:none;">
+												<h3>Hasil Kuis</h3>
+												<p id="score-text">Skor kamu: <span id="score">0</span>/<span id="total-questions">0</span></p>
+												<p id="feedback"></p>
+												<button id="restart-btn" class="button">Ulangi Kuis</button>
+											</div>
+										</div>
+									</div>
+								</section>
+
+								<!-- Tips Belajar -->
+								<section>
+									<h3>Tips Mempelajari Pancasila</h3>
+									<div class="box-content">
+										<div class="row">
+											<div class="col-6 col-12-small">
+												<ul>
+													<li>Pelajari sejarah lahirnya Pancasila</li>
+													<li>Pahami makna setiap lambang sila</li>
+													<li>Hafalkan urutan Pancasila dengan benar</li>
+												</ul>
+											</div>
+											<div class="col-6 col-12-small">
+												<ul>
+													<li>Analisis kasus penerapan Pancasila</li>
+													<li>Diskusikan dengan teman tentang implementasinya</li>
+													<li>Cari contoh nyata dalam kehidupan sehari-hari</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<section id="footer">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<section>
+									<h2>Butuh belajar lebih lanjut?</h2>
+									<ul class="actions">
+										<li><a href="sejarahpancasila.html" class="button">Pelajari Sejarah Pancasila</a></li>
+										<li><a href="nilainilaipancasila.html" class="button">Pelajari Nilai-nilai Pancasila</a></li>
+									</ul>
+								</section>
+							</div>
+						</div>
+					</div>
+					<div id="copyright" class="container">
+						<ul class="links">
+							<li>&copy; 2025 Pendidikan Pancasila. Seluruh hak cipta dilindungi.</li>
+						</ul>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+			<!-- Kuis Script -->
+			<script>
+				const questions = [
+					{
+						question: "Siapa yang pertama kali mengusulkan konsep Pancasila?",
+						answers: [
+							{ text: "Ir. Soekarno", correct: true },
+							{ text: "Mohammad Hatta", correct: false },
+							{ text: "Mr. Muhammad Yamin", correct: false },
+							{ text: "Dr. Soepomo", correct: false }
+						]
+					},
+					{
+						question: "Tanggal berapa Pancasila pertama kali diusulkan?",
+						answers: [
+							{ text: "17 Agustus 1945", correct: false },
+							{ text: "1 Juni 1945", correct: true },
+							{ text: "18 Agustus 1945", correct: false },
+							{ text: "29 Mei 1945", correct: false }
+						]
+					},
+					{
+						question: "Apa bunyi sila pertama Pancasila?",
+						answers: [
+							{ text: "Ketuhanan Yang Maha Esa", correct: true },
+							{ text: "Kemanusiaan yang adil dan beradab", correct: false },
+							{ text: "Persatuan Indonesia", correct: false },
+							{ text: "Kerakyatan yang dipimpin oleh hikmat kebijaksanaan", correct: false }
+						]
+					},
+					{
+						question: "Apa makna dari sila kedua Pancasila?",
+						answers: [
+							{ text: "Pengakuan terhadap keberagaman agama", correct: false },
+							{ text: "Penghormatan terhadap hak asasi manusia", correct: true },
+							{ text: "Kewajiban untuk menjaga persatuan", correct: false },
+							{ text: "Pentingnya musyawarah dalam pengambilan keputusan", correct: false }
+						]
+					},
+					{
+						question: "Contoh penerapan sila kelima Pancasila adalah...",
+						answers: [
+							{ text: "Menghadiri rapat RT", correct: false },
+							{ text: "Membantu tetangga yang kesulitan", correct: true },
+							{ text: "Menghormati teman yang beribadah", correct: false },
+							{ text: "Menggunakan produk dalam negeri", correct: false }
+						]
+					},
+					{
+						question: "Apa lambang dari sila ketiga Pancasila?",
+						answers: [
+							{ text: "Bintang", correct: false },
+							{ text: "Pohon beringin", correct: true },
+							{ text: "Kepala banteng", correct: false },
+							{ text: "Rantai emas", correct: false }
+						]
+					},
+                   
+
+{
+  question: "Apa arti simbol rantai emas dalam Pancasila?",
+  answers: [
+    { text: "Persatuan Indonesia", correct: false },
+    { text: "Kemanusiaan yang adil dan beradab", correct: true },
+    { text: "Gotong royong", correct: false },
+    { text: "Keadilan sosial", correct: false }
+  ]
+},
+{
+  question: "Sila keempat Pancasila menekankan pentingnya...",
+  answers: [
+    { text: "Gotong royong", correct: false },
+    { text: "Musyawarah dan mufakat", correct: true },
+    { text: "Persamaan hak", correct: false },
+    { text: "Keadilan sosial", correct: false }
+  ]
+},
+{
+  question: "Apa tujuan utama dari Pancasila sebagai dasar negara?",
+  answers: [
+    { text: "Memajukan ekonomi nasional", correct: false },
+    { text: "Menjadi dasar dalam kehidupan berbangsa dan bernegara", correct: true },
+    { text: "Meningkatkan prestasi olahraga", correct: false },
+    { text: "Mengatur pemerintahan daerah", correct: false }
+  ]
+},
+{
+  question: "Apa yang dimaksud dengan nilai instrumental dalam Pancasila?",
+  answers: [
+    { text: "Nilai yang bersifat tetap dan tidak berubah", correct: false },
+    { text: "Nilai yang menjadi pedoman dalam praktik kehidupan sehari-hari", correct: true },
+    { text: "Nilai yang hanya berlaku untuk generasi muda", correct: false },
+    { text: "Nilai yang berasal dari budaya luar", correct: false }
+  ]
+},
+{
+  question: "Bagaimana sikap yang sesuai dengan sila keempat?",
+  answers: [
+    { text: "Menghormati keputusan bersama", correct: true },
+    { text: "Memberi bantuan tanpa pamrih", correct: false },
+    { text: "Menjaga kebersihan lingkungan", correct: false },
+    { text: "Mendukung produk lokal", correct: false }
+  ]
+},
+{
+  question: "Apa yang bukan termasuk dalam makna sila kelima?",
+  answers: [
+    { text: "Keadilan bagi seluruh rakyat", correct: false },
+    { text: "Mengutamakan kepentingan umum", correct: false },
+    { text: "Pemaksaan kehendak pribadi", correct: true },
+    { text: "Pemerataan pembangunan", correct: false }
+  ]
+},
+{
+  question: "Apa simbol sila keempat dalam Pancasila?",
+  answers: [
+    { text: "Rantai emas", correct: false },
+    { text: "Bintang", correct: false },
+    { text: "Kepala banteng", correct: true },
+    { text: "Pohon beringin", correct: false }
+  ]
+},
+{
+  question: "Apa arti dari sila ketiga Pancasila?",
+  answers: [
+    { text: "Cinta tanah air dan bangsa", correct: true },
+    { text: "Musyawarah dalam keluarga", correct: false },
+    { text: "Keadilan ekonomi", correct: false },
+    { text: "Menghormati hak orang lain", correct: false }
+  ]
+},
+
+					{
+						question: "Siapa yang menjelaskan tentang negara integralistik dalam perumusan Pancasila?",
+						answers: [
+							{ text: "Ir. Soekarno", correct: false },
+							{ text: "Mohammad Hatta", correct: false },
+							{ text: "Dr. Soepomo", correct: true },
+							{ text: "Mr. Muhammad Yamin", correct: false }
+						]
+					}
+				];
+
+				const startButton = document.getElementById('start-btn');
+				const nextButton = document.getElementById('next-btn');
+				const questionContainerElement = document.getElementById('question-container');
+				const questionElement = document.getElementById('question');
+				const answerButtonsElement = document.getElementById('answer-buttons');
+				const resultsElement = document.getElementById('results');
+				const scoreElement = document.getElementById('score');
+				const totalQuestionsElement = document.getElementById('total-questions');
+				const feedbackElement = document.getElementById('feedback');
+				const restartButton = document.getElementById('restart-btn');
+
+				let shuffledQuestions, currentQuestionIndex, score;
+
+				startButton.addEventListener('click', startGame);
+				nextButton.addEventListener('click', () => {
+					currentQuestionIndex++;
+					setNextQuestion();
+				});
+				restartButton.addEventListener('click', startGame);
+
+				function startGame() {
+					startButton.style.display = 'none';
+					resultsElement.style.display = 'none';
+					shuffledQuestions = questions.sort(() => Math.random() - .5);
+					currentQuestionIndex = 0;
+					score = 0;
+					questionContainerElement.style.display = 'block';
+					totalQuestionsElement.innerText = questions.length;
+					setNextQuestion();
+				}
+
+				function setNextQuestion() {
+					resetState();
+					showQuestion(shuffledQuestions[currentQuestionIndex]);
+				}
+
+				function showQuestion(question) {
+					questionElement.innerText = question.question;
+					question.answers.forEach(answer => {
+						const button = document.createElement('button');
+						button.innerText = answer.text;
+						button.classList.add('button');
+						if (answer.correct) {
+							button.dataset.correct = answer.correct;
+						}
+						button.addEventListener('click', selectAnswer);
+						answerButtonsElement.appendChild(button);
+					});
+				}
+
+				function resetState() {
+					nextButton.style.display = 'none';
+					while (answerButtonsElement.firstChild) {
+						answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+					}
+				}
+
+				function selectAnswer(e) {
+					const selectedButton = e.target;
+					const correct = selectedButton.dataset.correct;
+					
+					if (correct) {
+						score++;
+					}
+					
+					Array.from(answerButtonsElement.children).forEach(button => {
+						setStatusClass(button, button.dataset.correct);
+						button.disabled = true;
+					});
+					
+					if (shuffledQuestions.length > currentQuestionIndex + 1) {
+						nextButton.style.display = 'block';
+					} else {
+						setTimeout(showResults, 1000);
+					}
+				}
+
+				function setStatusClass(element, correct) {
+					clearStatusClass(element);
+					if (correct) {
+						element.classList.add('correct');
+					} else {
+						element.classList.add('wrong');
+					}
+				}
+
+				function clearStatusClass(element) {
+					element.classList.remove('correct');
+					element.classList.remove('wrong');
+				}
+
+				function showResults() {
+  questionContainerElement.style.display = 'none';
+  resultsElement.style.display = 'block';
+  
+  // Hitung nilai 1-100 (minimal 1, maksimal 100)
+  const rawScore = (score / 17) * 100;
+  const finalScore = Math.max(1, Math.min(100, Math.round(rawScore))); // Pastikan 1-100
+  
+  scoreElement.innerText = finalScore;
+  
+  // Grading system untuk 17 pertanyaan
+  if (finalScore >= 90) {
+    feedbackElement.innerText = "Luar biasa! Anda ahli Pancasila! 🎯";
+  } else if (finalScore >= 75) {
+    feedbackElement.innerText = "Bagus! Pemahaman Pancasila Anda kuat 👍"; 
+  } else if (finalScore >= 60) {
+    feedbackElement.innerText = "Cukup. Pelajari lagi sila-sila Pancasila 📚";
+  } else if (finalScore >= 40) {
+    feedbackElement.innerText = "Perlu peningkatan. Fokus pada materi yang sulit ✏️";
+  } else {
+    feedbackElement.innerText = "Yuk belajar lagi! Pancasila penting untuk bangsa! 🇮🇩";
+  }
+}
+			</script>
+
+	</body>
+</html>
